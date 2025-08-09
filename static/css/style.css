@@ -1,0 +1,40 @@
+.theme {
+    background-color: rgb(26, 43, 74) !important;
+    
+}
+body{
+    font-family: "Poppins", sans-serif !important;
+}
+
+/* Target inputs inside the container with ID "auth-form" */
+#auth-form input[type="text"],
+#auth-form input[type="email"],
+#auth-form input[type="password"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db; /* Tailwind gray-300 */
+    border-radius: 6px;
+    background-color: #f9fafb; /* Tailwind gray-50 */
+    font-size: 16px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#auth-form input:focus {
+    outline: none;
+    border-color: #6366f1; /* Tailwind indigo-500 */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Dark mode */
+.dark-mode {
+    background-color: #121212 !important;
+    color: #f1f1f1 !important;
+}
+
+/* Example for links */
+.dark-mode a {
+    color: #0e0619 !important;
+}
+.dark-mode h1,h2,h3,h4,h5,h6 {
+    color: #0e0619 !important;
+}

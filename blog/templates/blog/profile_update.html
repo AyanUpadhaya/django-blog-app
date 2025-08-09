@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold mb-6">Update Profile</h2>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div>
+      <label class="block font-semibold mb-1">Bio</label>
+      {{ form.bio }}
+      {% for error in form.bio.errors %}
+        <p class="text-red-500 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      <label class="block font-semibold mb-1">Avatar</label>
+      {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" alt="Current avatar" class="w-16 h-16 rounded-full mb-2">
+      {% endif %}
+      {{ form.avatar }}
+      {% for error in form.avatar.errors %}
+        <p class="text-red-500 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+      Save Changes
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}TechTrends{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CDN for dev -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% block head %}{% endblock %}
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <nav class="bg-white shadow-md">
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <a class="font-bold text-xl" href="{% url 'blog:home' %}">TechTrends</a>
+        <div class="flex items-center gap-3">
+          <form method="get" action="{% url 'blog:search' %}">
+            <input
+              type="text"
+              name="q"
+              placeholder="Search posts..."
+              class="border rounded px-2 py-1"
+            />
+          </form>
+          {% if user.is_authenticated %}
+          <a
+            href="{% url 'blog:dashboard' %}"
+            class="px-3 py-1 rounded bg-indigo-600 text-white"
+            >Dashboard</a
+          >
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="text-indigo-600 hover:text-indigo-900">
+              Logout
+            </button>
+          </form>
+          <div
+            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"
+          >
+            <span class="text-2xl font-bold"
+              >{{ request.user.username|slice:":1"|upper }}</span
+            >
+          </div>
+          {% else %}
+          <a href="{% url 'login' %}" class="px-3 py-1">Login</a>
+          <a
+            href="{% url 'signup' %}"
+            class="px-3 py-1 rounded bg-green-500 text-white"
+            >Register</a
+          >
+          {% endif %}
+          {% comment %} <button id="darkModeToggle">Dark Mode</button> {% endcomment %}
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center py-6 text-sm text-gray-500 mt-auto hidden">
+      © {{ now.year }} TechTrends
+    </footer>
+
+    <script src="{% static 'js/blog.js' %}"></script>
+    {% comment %} <script>
+      // Function to enable dark mode
+      function enableDarkMode() {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+      }
+
+      // Function to disable dark mode
+      function disableDarkMode() {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+      }
+
+      // Check stored preference and apply on page load
+      window.onload = function () {
+        const darkMode = localStorage.getItem("darkMode");
+        if (darkMode === "enabled") {
+          enableDarkMode();
+        }
+      };
+
+      // Toggle dark mode on button click
+      document
+        .getElementById("darkModeToggle")
+        .addEventListener("click", () => {
+          const darkMode = localStorage.getItem("darkMode");
+          if (darkMode !== "enabled") {
+            enableDarkMode();
+          } else {
+            disableDarkMode();
+          }
+        });
+    </script> {% endcomment %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

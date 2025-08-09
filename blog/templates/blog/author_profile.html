@@ -1,0 +1,91 @@
+{% extends "blog/base.html" %} 
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+  <!-- Profile Header -->
+  <div class="flex items-center space-x-6 bg-white p-6 rounded shadow">
+    {% if author.profile.avatar %}
+    <img
+      src="{{ author.profile.avatar.url }}"
+      alt="{{ author.username }}'s avatar"
+      class="w-24 h-24 rounded-full object-cover border"
+    />
+    {% else %}
+    <div
+      class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"
+    >
+      <span class="text-2xl font-bold"
+        >{{ author.username|slice:":1"|upper }}</span
+      >
+    </div>
+    {% endif %}
+    <div>
+      <h2 class="text-3xl font-bold">{{ author.username }}</h2>
+      {% if author.first_name or author.last_name %}
+      <p class="text-gray-600">
+        {{ author.first_name }} {{ author.last_name }}
+      </p>
+      {% endif %} {% if author.profile.bio %}
+      <p class="mt-2 text-gray-700">{{ author.profile.bio }}</p>
+      {% endif %}
+
+      <!-- Follow Button -->
+
+      {% if request.user.is_authenticated and request.user != author %}
+      <button
+        data-username="{{ author.username }}"
+        id="follow-btn"
+        class="mt-3 px-4 py-2 rounded text-white bg-red-500 hover:bg-red-600"
+      >
+        {% if is_following %} Unfollow {% else %} Follow {% endif %}
+      </button>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="flex gap-6 bg-white p-4 rounded shadow text-center">
+    <div class="flex-1">
+      <p class="text-2xl font-bold">{{ posts.count }}</p>
+      <p class="text-gray-600">Posts</p>
+    </div>
+    <div class="flex-1">
+      <p class="text-2xl font-bold" id="follower-count">{{ followers }}</p>
+      <p class="text-gray-600">Followers</p>
+    </div>
+    <div class="flex-1">
+      <p class="text-2xl font-bold">{{ following }}</p>
+      <p class="text-gray-600">Following</p>
+    </div>
+  </div>
+
+  <!-- Author's Posts -->
+  <div>
+    <h3 class="text-2xl font-semibold mb-4">Published Posts</h3>
+    <ul class="divide-y divide-gray-200 bg-white rounded shadow">
+      {% for post in posts %}
+      <li
+        class="p-4 hover:bg-gray-50 transition flex justify-between items-center"
+      >
+        <a
+          href="{{ post.get_absolute_url }}"
+          class="font-semibold text-indigo-700 hover:underline"
+        >
+          {{ post.title }}
+        </a>
+        <span class="text-sm text-gray-500"
+          >{{ post.created_at|date:"M d, Y" }}</span
+        >
+      </li>
+      {% empty %}
+      <li class="p-4 text-gray-500 text-center">No published posts yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <script>
+
+    window.BLOG = window.BLOG || {};
+    window.BLOG.authorUsername = '{{ author.username }}';
+    window.BLOG.isFollowing = {{ is_following|default_if_none:False|yesno:"true,false" }};
+  </script>
+</div>
+{% endblock %}

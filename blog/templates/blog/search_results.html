@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-6">
+  <h2 class="text-2xl font-bold mb-4">
+    Search results for: "{{ q }}"
+  </h2>
+
+  {% if posts %}
+    <ul class="space-y-4">
+      {% for post in posts %}
+        <li class="p-4 bg-white rounded shadow hover:bg-gray-50 transition">
+          <a href="{{ post.get_absolute_url }}" class="text-lg font-semibold text-indigo-600 hover:underline">
+            {{ post.title }}
+          </a>
+          <p class="text-sm text-gray-500">By {{ post.author.username }} • {{ post.created_at|date:"M d, Y" }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+      <div class="mt-6 flex justify-center space-x-2">
+        {% if page_obj.has_previous %}
+          <a href="?q={{ q }}&page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <a href="?q={{ q }}&page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p class="text-gray-500">No posts found matching your search.</p>
+  {% endif %}
+</div>
+{% endblock %}
