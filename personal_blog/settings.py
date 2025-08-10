@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -174,16 +174,17 @@ CKEDITOR_CONFIGS = {
 
 
 STATIC_URL = '/static/'
+# Additional folders where Django will find static files in development
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Your app-level static files
+]
 
 # Folder for collectstatic output (production use)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Additional folders where Django will find static files in development
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Your app-level static files
-]
+
 
 # This production code might break development mode, so we check whether we're in DEBUG mode
 # if not DEBUG:
