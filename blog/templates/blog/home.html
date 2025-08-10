@@ -12,7 +12,7 @@
         />
         {% endif %}
         <h2 class="text-lg font-semibold">
-          <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          <a href="{{ post.get_absolute_url }}">{{ post.title|safe }}</a>
         </h2>
         <p class="text-sm text-gray-600">
           by
@@ -24,7 +24,7 @@
           · {{ post.created_at|date:"F j, Y" }}
         </p>
         <p class="mt-2 text-sm text-gray-700">
-          {{ post.content|truncatechars:140 }}
+          {{ post.content|truncatechars:140|safe }}
         </p>
       </article>
       {% endfor %}
