@@ -16,6 +16,9 @@ from decouple import config
 import os
 from dotenv import load_dotenv # type: ignore
 from urllib.parse import urlparse, parse_qsl
+import cloudinary # type: ignore
+import cloudinary.uploader # type: ignore
+import cloudinary.api # type: ignore
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,6 +50,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',  # Needed for image/file uploads
     "blog.apps.BlogConfig",
     'django.contrib.humanize',  # optional (followers count format)
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +82,13 @@ TEMPLATES = [
     },
 ]
 
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUD_NAME"),
+    'API_KEY': os.getenv("API_KEY"),
+    'API_SECRET': os.getenv("API_SECRET")
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 WSGI_APPLICATION = 'personal_blog.wsgi.application'
 
 

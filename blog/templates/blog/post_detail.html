@@ -1,9 +1,10 @@
-{% extends 'blog/base.html' %} {% block content %}
+{% extends 'blog/base.html' %} 
+{% block content %}
 <article class="bg-white p-6 rounded shadow">
   {% if post.featured_image %}
   <img
     src="{{ post.featured_image.url }}"
-    class="w-full h-64 object-cover rounded mb-4"
+    class="w-full h-80 object-cover rounded mb-4"
   />
   {% endif %}
   <h1 class="text-2xl font-bold">{{ post.title }}</h1>
@@ -16,7 +17,7 @@
     >
     · {{ post.created_at|date:"F j, Y" }}
   </p>
-  <div class="mt-4 prose">
+  <div class="mt-4 post-content">
     {% comment %} {{ post.content|linebreaks }} {% endcomment %}
     {{post.content|safe }}
   </div>
